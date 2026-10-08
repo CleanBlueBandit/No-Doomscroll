@@ -1,0 +1,8 @@
+body {
+    width: 20vw;
+    padding: 15vh;
+}
+
+[aria-label="Next video"] {
+    display: none !important;
+}
