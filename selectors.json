@@ -1,0 +1,6 @@
+{
+    "www.youtube.com/shorts" : "[aria-label=\"Next video\"]",
+    "www.instagram.com/reels" : "[aria-label=\"Navigate to next reel\"]", 
+    "www.facebook.com/reel" : "[aria-label=\"Next card\"]",
+    "www.tiktok.com": "[data-key-interaction=\"feed_nav_next\"]"
+}
