@@ -8,7 +8,9 @@ On supported sites, No Scroll takes away the ways you'd normally move to the nex
  
 - **Mouse wheel / trackpad scrolling** is blocked.
 - **Arrow Down key** is blocked.
+- **Touchpad scrolling** is blocked.
 - **"Next video" navigation buttons** are removed from the page.
+
 The current video stays put. You can still play, pause, seek and interact with it as usual.
  
 ## Installation
@@ -67,3 +69,6 @@ Supported sites are defined by the `matches` patterns in the `content_scripts` s
 Wheel and arrow-key blocking apply to every matched page automatically, so many sites need only steps 1 and 3.
 
  
+## Why this approach
+
+There is nothing inherintly wrong with viewing shorts (at least in my opinion). The issue starts when you consume shorts for dopamine, and that happens when you scroll. Since the extension doesnt block shorts completely, you can still watch a reel a friend sent you or watch a short with interesting thumbnail, but since the element of instant scrolling is disabled, you are less likely to get addicted.

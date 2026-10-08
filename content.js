@@ -34,6 +34,15 @@ document.addEventListener("wheel", e => {
     passive: false
 });
 
+document.addEventListener("touchmove", e => {
+    console.log("Scrolling blocked");
+    e.preventDefault();
+}, {
+    capture: true,
+    passive: false
+});
+
+
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", main);
 } else {
