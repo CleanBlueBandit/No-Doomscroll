@@ -165,7 +165,7 @@ async function updateStats(){
         totalBlocked,
         {
             prefix: "Prevented ",
-            suffix: " websites",
+            suffix: " times",
             duration: 1.5
         }
     );

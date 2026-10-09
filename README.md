@@ -1,4 +1,4 @@
-# No Scroll
+# No Doomscroll
  
 A Chrome extension that blocks the infinite-scroll mechanic on short-form video feeds, so you can watch the video you came for without getting pulled into the next one, and the next one, and the next one.
  
