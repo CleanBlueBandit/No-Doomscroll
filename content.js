@@ -4,8 +4,43 @@ let selectors = {};
 let blockpage = false;
 let currentSite = null;
 
+const SCROLL_COOLDOWN_MS = 1000;  
+const FLUSH_DELAY_MS = 500; 
+
+let lastScrollAttempt = 0;
+let pendingScrollAttempts = 0;
+let flushTimer = null;
+
 async function sleep(ms) {
     await new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function registerScrollAttempt(source) {
+    const now = Date.now();
+    if (now - lastScrollAttempt < SCROLL_COOLDOWN_MS) return;
+
+    lastScrollAttempt = now;
+    pendingScrollAttempts++;
+    console.log(`Scroll attempt blocked (${source})`);
+
+    if (!flushTimer) {
+        flushTimer = setTimeout(flushScrollAttempts, FLUSH_DELAY_MS);
+    }
+}
+
+async function flushScrollAttempts() {
+    flushTimer = null;
+    if (pendingScrollAttempts === 0) return;
+
+    const toAdd = pendingScrollAttempts;
+    pendingScrollAttempts = 0;
+
+    try {
+        const { scrollAttempts = 0 } = await chrome.storage.local.get("scrollAttempts");
+        await chrome.storage.local.set({ scrollAttempts: scrollAttempts + toAdd });
+    } catch (err) {
+        console.warn("Could not save scroll attempts:", err);
+    }
 }
 
 async function loadSelectors() {
@@ -27,6 +62,15 @@ function getCurrentSite() {
     return null;
 }
 
+async function incrementTotalBlocked() {
+    try {
+        const { totalBlocked = 0 } = await chrome.storage.local.get("totalBlocked");
+        await chrome.storage.local.set({ totalBlocked: totalBlocked + 1 });
+    } catch (err) {
+        console.warn("Could not save totalBlocked:", err);
+    }
+}
+
 async function main() {
     await loadSelectors();
 
@@ -39,6 +83,7 @@ async function main() {
             if (site) {
                 blockpage = true;
                 console.log(`Detected: ${site}`);
+                await incrementTotalBlocked();
             } else {
                 blockpage = false;
                 console.log("Unsupported page.");
@@ -62,17 +107,17 @@ document.addEventListener("keydown", e => {
     if (!blockpage) return;
 
     if (e.key === "ArrowDown") {
-        console.log("Arrow down blocked");
         e.preventDefault();
         e.stopImmediatePropagation();
+        registerScrollAttempt("arrow down");
     }
 }, true);
 
 document.addEventListener("wheel", e => {
     if (!blockpage) return;
 
-    console.log("Scrolling blocked");
     e.preventDefault();
+    registerScrollAttempt("wheel");
 }, {
     capture: true,
     passive: false
@@ -81,12 +126,14 @@ document.addEventListener("wheel", e => {
 document.addEventListener("touchmove", e => {
     if (!blockpage) return;
 
-    console.log("Scrolling blocked");
     e.preventDefault();
+    registerScrollAttempt("touch");
 }, {
     capture: true,
     passive: false
 });
+
+window.addEventListener("pagehide", flushScrollAttempts);
 
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", main);

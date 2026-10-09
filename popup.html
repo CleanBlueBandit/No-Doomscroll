@@ -1,15 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>No Scroll</title>
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
     <div id="nameplate">
         <h1>No scroll</h1>
-        <img src="icon-full.png" alt="no scroll icon" id="icon">
+        <img src="icon-full.png" alt="No Scroll icon" id="icon">
     </div>
-    <p id="github">See my <a href="https://www.github.com/cleanbluebandit" target="_blank">github page</a> for a detailed <a href="https://www.github.com/cleanbluebandit/no-scroll" target="_blank">readme</a></p>
+
+    <div class="stats">
+        <p id="blockedsites" class="stat-main"></p>
+        <p class="stat-secondary">from dragging you in.</p>
+    </div>
+
+    <div class="stats">
+        <p id="blockedscrolls" class="stat-main"></p>
+        <p class="stat-secondary">doomscroll attempts</p>
+    </div>
+
+    <p id="github">
+        See my <a href="https://www.github.com/cleanbluebandit" target="_blank" rel="noopener">GitHub page</a>
+        for a detailed
+        <a href="https://www.github.com/cleanbluebandit/no-scroll" target="_blank" rel="noopener">readme</a>
+    </p>
+
     <script src="popup.js"></script>
 </body>
 </html>

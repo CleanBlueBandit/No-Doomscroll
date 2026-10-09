@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "No Scroll",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "description": "A chrome extension that blocks infinite scroll mechanic across few major websites.",
     "action": {
         "default_popup": "popup.html"
@@ -27,5 +27,8 @@
                 "<all_urls>"
             ]
         }
+    ],
+    "permissions": [
+        "storage"
     ]
 }
